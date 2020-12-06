@@ -1,0 +1,61 @@
+<div class="container p-5">
+    <div class="row d-flex justify-content-center border border-dark  shadow-lg">
+        <div *ngIf='!relleno; else contacto' class='p-5'>
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" [(ngModel)]='email' class="form-control" >
+            </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Password</label>
+                <input [type]="show ? 'text' : 'password'" [(ngModel)]='password' class="form-control">
+                <button class='bg-white border-0 pass-btn text-muted' (click)='showPass()'>show</button>
+            </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Address</label>
+              <input type="text" [(ngModel)]='address' class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Address 2</label>
+              <input type="text" [(ngModel)]='address2' class="form-control">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">City</label>
+                <input type="text" [(ngModel)]='city' class="form-control"> 
+            </div>
+              <div class="form-group col-md-4">
+                <label for="inputState">State</label>
+                <input type='text' [(ngModel)]='state' class="form-control">
+            </div>
+              <div class="form-group col-md-2">
+                <label for="inputZip">Zip</label>
+                <input type="number" [(ngModel)]="zip" class="form-control">
+            </div>
+            </div>
+            <button (click)='rellenado()' class="btn btn-primary">Contact</button>
+        </div>
+        <ng-template #contacto>
+            <div class="col-12 p-5 d-flex flex-column">
+                <h5>Estimado usuario, en breve nos pondremos en contacto con usted.</h5>
+                <div class="button m-1">
+                    <button (click)='revisar()' class='btn btn-warning'>Revisar datos</button>
+                </div>
+                <div class="variables m-1" *ngIf='revisado'>
+                    <p>Email: {{email}}</p>
+                    <p>Password: {{password}}</p>
+                    <p>Address: {{address}}</p>
+                    <p>Address 2: {{address2}}</p>
+                    <p>City: {{city}}</p>
+                    <p>State: {{state}}</p>
+                    <p>Zip: {{zip}}</p>
+                </div>
+                <div class="button m-1">
+                   <button (click)='editar()' class='btn btn-danger'>Editar Formulario</button>
+                </div>
+            </div>
+        </ng-template>
+        
+    </div>
+</div>

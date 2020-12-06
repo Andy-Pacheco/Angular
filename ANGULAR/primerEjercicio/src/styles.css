@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+.activado {
+  border-color: #dee2e6 #dee2e6 #fff !important;
+  color: black !important;
+}
+
+app-footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.tachado {
+  text-decoration: line-through;
+}

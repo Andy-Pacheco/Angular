@@ -1,0 +1,13 @@
+.row {
+  min-height: 520px;
+}
+
+.pass-btn {
+  position: absolute;
+  top: 37px;
+  left: 263px;
+}
+
+.pass-btn:focus {
+  outline: none;
+}
