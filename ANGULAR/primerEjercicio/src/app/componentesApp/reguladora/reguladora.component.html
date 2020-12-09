@@ -1,0 +1,20 @@
+<div class="container p-5">
+    <div class="row d-flex justify-content-center border border-dark  shadow-lg">
+
+<form>
+    <div class="row">
+      <div class="col-12">
+        <input type="text" [(ngModel)]='usuario.name' name='usuario.name' class="form-control" placeholder="First name">
+      </div>
+      <div class="col-12">
+        <input type="email" [(ngModel)]='usuario.email' name='usuario.email' class="form-control" placeholder="Email">
+      </div>
+      <div class="col-12">
+        <input type="phone" [(ngModel)]='usuario.phone' name='usuario.phone' class="form-control" placeholder="Phone">
+      </div>
+      <button class='btn btn-primary' (click)='comprobar()'>Send</button>
+    </div>
+  </form>
+          
+</div>
+</div>

@@ -1,28 +1,30 @@
 <div class="container-fluid p-5">
   <div class="row d-flex justify-content-center">
       <div class="col-6 border border-dark p-5" [class]="clicked ? 'bg-secondary shadow-lg' : 'bg-dark text-dark'">
-        <div *ngIf="!logged">
+        <form *ngIf="!logged; else logeado">
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" (click)='changeBg()' [(ngModel)]="emailIn" [placeholder]="clicked ? 'Good job!' : 'Click here'" class="form-control">
+            <input type="email" name="emailIn" (click)='changeBg()' [(ngModel)]="emailIn" [placeholder]="clicked ? 'Good job!' : 'Click here'" class="form-control">
             <p>{{emailIn}} == {{email}}</p>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" (click)='changeBg()' [(ngModel)]="passIn" [placeholder]="clicked ? '' : 'Or here'" class="form-control">
+            <input type="password" name="passIn" (click)='changeBg()' [(ngModel)]="passIn" [placeholder]="clicked ? '' : 'Or here'" class="form-control">
             <p>{{passIn}} == {{pass}}</p>
           </div>
           <button type="submit" (click)="checkToken()" [class]="clicked ? 'btn btn-warning' : 'btn btn-dark'">Submit</button>
-        </div>
-        
-          <div *ngIf="logged && failed" class="d-flex flex-column">
+        </form>
+        <ng-template #logeado>
+          <div *ngIf="failed; else todobien" class="d-flex flex-column">
             <p>The email or user is not correct
             <div class="button">
               <button class="btn btn-warning" (click)="tryAgain()">Try again</button>
             </div>
           </div>
-          <h4 *ngIf="logged && !failed" class='text-white'>Your login was successful!</h4>
-        
+          <ng-template #todobien>
+            <h4 class='text-white'>Your login was successful!</h4>
+          </ng-template>
+        </ng-template>
       </div>
   </div>
 </div>

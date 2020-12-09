@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   
   public clicked:boolean = false;
   public logged:boolean = false;
-  public failed:boolean = false;
+  public failed:boolean;
 
   public email:string = "prueba@prueba.com";
   public pass:number = 12345678;

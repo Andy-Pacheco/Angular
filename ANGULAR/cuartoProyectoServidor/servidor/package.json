@@ -1,0 +1,25 @@
+{
+  "name": "servidor",
+  "version": "1.0.0",
+  "description": "Se crea un servidor para hacer conexion con bbdd en mysql",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -w",
+    "pruebas": "nodemon ficheroJS/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "@types/mysql": "^2.15.16",
+    "nodemon": "^2.0.6"
+  }
+}

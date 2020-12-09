@@ -12,6 +12,7 @@ import { FooterComponent } from './componentesApp/footer/footer.component';
 import { EventsComponent } from './componentesApp/events/events.component';
 import { TabsDirective } from './directivesApp/tabs.directive';
 import { HomeComponent } from './componentesApp/home/home.component';
+import { ReguladoraComponent } from './componentesApp/reguladora/reguladora.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HomeComponent } from './componentesApp/home/home.component';
     FooterComponent,
     EventsComponent,
     TabsDirective,
-    HomeComponent
+    HomeComponent,
+    ReguladoraComponent
   ],
   imports: [
     BrowserModule,
