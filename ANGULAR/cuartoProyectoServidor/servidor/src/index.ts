@@ -1,4 +1,6 @@
 import express, {Application} from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
 
 import rutaInicio from './rutas/rutaindex';
 import rutaLibros from './rutas/rutaLibros';
@@ -16,8 +18,11 @@ class Servidor {
 
     private configuracion():void{
         this.app.set('port', process.env.PORT || 4000);
+        this.app.use(morgan('dev'));
+        this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:false}))
+
     }
 
     public lanzarServidor():void{

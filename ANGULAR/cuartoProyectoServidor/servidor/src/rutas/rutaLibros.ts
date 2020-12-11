@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import controladorLibros from '../controladores/controladorLibros';
+import queryBBDD from '../controladores/controladorLibros';
 
 export class Libreria {
     public rutaLibros:Router;
@@ -9,7 +9,11 @@ export class Libreria {
         this.configuracion();
     }
     configuracion():void{
-        this.rutaLibros.get('/', controladorLibros.mostrar)
+        this.rutaLibros.get('/', queryBBDD.mostrar);
+        this.rutaLibros.delete('/:id', queryBBDD.borrar);
+        this.rutaLibros.post('/', queryBBDD.crear);
+        this.rutaLibros.put('/:id', queryBBDD.actualizar);
+        this.rutaLibros.get('/:id', queryBBDD.filtrar )
     }
 }
 

@@ -13,6 +13,10 @@ class Libreria {
     }
     configuracion() {
         this.rutaLibros.get('/', controladorLibros_1.default.mostrar);
+        this.rutaLibros.delete('/:id', controladorLibros_1.default.borrar);
+        this.rutaLibros.post('/', controladorLibros_1.default.crear);
+        this.rutaLibros.put('/:id', controladorLibros_1.default.actualizar);
+        this.rutaLibros.get('/:id', controladorLibros_1.default.filtrar);
     }
 }
 exports.Libreria = Libreria;

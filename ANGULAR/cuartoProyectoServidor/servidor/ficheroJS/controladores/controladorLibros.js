@@ -21,6 +21,34 @@ class ControladorLibros {
             });
         });
     }
+    crear(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield conexionBBDD_1.default.query(`INSERT INTO libros SET ?`, [req.body]);
+            res.json({ text: 'libro guardado' });
+        });
+    }
+    borrar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            yield conexionBBDD_1.default.query(`DELETE FROM libros WHERE id=${id}`);
+            res.json({ text: 'libro borrado' });
+        });
+    }
+    actualizar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            let { autor, titulo, categoria, descripcion, imagen } = req.body;
+            yield conexionBBDD_1.default.query('UPDATE libros SET ? WHERE id=?', [req.body, id]);
+        });
+    }
+    filtrar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            yield conexionBBDD_1.default.query(`SELECT * FROM libros WHERE id=?`, [id], (error, resultado, fields) => {
+                res.json(resultado);
+            });
+        });
+    }
 }
 const queryBBDD = new ControladorLibros();
 exports.default = queryBBDD;
