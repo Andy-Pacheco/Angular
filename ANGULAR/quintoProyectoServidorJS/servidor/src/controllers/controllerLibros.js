@@ -27,6 +27,7 @@ class ControladorLibros{
 
     async crear(req, res){
         await bd.query('INSERT INTO libros SET ?', [req.body]);
+        console.log(req.body);
         res.json({text: 'Libros guardados en BBDD'})
     }
     async borrar(req, res){
