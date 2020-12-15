@@ -1,6 +1,8 @@
 import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { LibrosService } from '../../service/libros.service';
+import { AdminService } from '../../service/admin.service';
+
 
 @Component({
   selector: 'app-libros',
@@ -23,10 +25,23 @@ export class LibrosComponent implements OnInit {
     imagen:'',
     descripcion:''
   }
-  constructor(private serviciosLibro:LibrosService) { }
+  admin:any = {
+    name: '',
+    pass: ''
+  }
+  inicio:boolean = true;
+  constructor(private serviciosLibro:LibrosService, private servicioAdmin:AdminService) { }
 
   ngOnInit(): void {
-    this.mostrarLibros();
+    this.logueado();
+    //this.mostrarLibros();
+  }
+
+  logueado(){
+    if(localStorage.getItem('token')){
+      this.inicio = false;
+      this.mostrarLibros();
+    }
   }
 
   nuevoLibro(){
@@ -63,5 +78,16 @@ export class LibrosComponent implements OnInit {
         this.mostrarLibros();
       }, error => console.log(error)
     );
+  }
+
+  compruebaAcceso(){
+    this.servicioAdmin.compruebaAcceso(this.admin).subscribe(
+      res => {
+        localStorage.setItem('token', res['token']);
+        if(res['token'] !== null){
+          this.inicio = false;
+        }
+      }, error => console.log(error)
+    )
   }
 }

@@ -1,3 +1,5 @@
+const conexion = require("./conexionDB")
+
 module.exports = {
     db: {
         host:'localhost',

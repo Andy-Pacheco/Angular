@@ -11,10 +11,10 @@ class ControladorAdmin{
     }
 
     async comprobar(req, res){
-        const nombre = req.body.name;
+        const name = req.body.name;
         const pass = req.body.pass;
-
-        await bd.query(`SELECT * FROM user WHERE nombre = ? AND pass=?`, [nombre, pass], (error, resultado, fields) =>{
+        console.log(req.body);
+        await bd.query(`SELECT * FROM user WHERE nombre = ? AND pass=?`, [name, pass], (error, resultado, fields) =>{
           
             if (resultado.length == 0){
                 return res.status(401).send('Usuario incorrecto');
@@ -23,7 +23,7 @@ class ControladorAdmin{
                 return res.status(401).send('Password incorrecto');
             }
             const token = jwt.sign({id: req.body.id}, 'clave');
-            res.json({token});
+            return res.status(200).json({token});
        })
 
     }
