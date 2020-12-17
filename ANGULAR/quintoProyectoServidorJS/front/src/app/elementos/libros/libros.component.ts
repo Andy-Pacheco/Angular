@@ -38,10 +38,20 @@ export class LibrosComponent implements OnInit {
   }
 
   logueado(){
-    if(localStorage.getItem('token')){
+    const tokenOriginal = this.servicioAdmin.dameToken();
+    if(localStorage.getItem('codigoAcceso') == tokenOriginal){
       this.inicio = false;
       this.mostrarLibros();
     }
+  }
+
+  cierreSesion(){
+    localStorage.removeItem('codigoAcceso');
+    this.admin = {
+      name: '',
+      pass: ''
+    };
+    this.inicio = true;
   }
 
   nuevoLibro(){
@@ -83,11 +93,12 @@ export class LibrosComponent implements OnInit {
   compruebaAcceso(){
     this.servicioAdmin.compruebaAcceso(this.admin).subscribe(
       res => {
-        localStorage.setItem('token', res['token']);
+        this.servicioAdmin.guardoToken(res['token']);
         if(res['token'] !== null){
           this.inicio = false;
+          this.mostrarLibros();
         }
-      }, error => console.log(error)
-    )
-  }
+      }, error => alert(error.error)
+    );
+  };
 }

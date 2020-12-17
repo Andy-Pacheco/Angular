@@ -15,6 +15,7 @@
         </div>
     </div>
     <ng-template #perfilBack class="row">
+        <button type='submit' class='btn btn-primary' (click)='cierreSesion()'>Logout</button>
         <div class="col-4">
     <form>
         <div class="mb-3">
@@ -31,7 +32,7 @@
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Link Imagen</label>
-            <input type="text" class="form-control" [(ngModel)]='libro.imagen' name='imagen'>
+            <input type="file" class="form-control" [(ngModel)]='libro.imagen' name='imagen'>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label" >Descripción</label>
@@ -46,7 +47,7 @@
                 <div class="card d-flex" style="width: 18rem;">
                     <button class='btn btn-danger' (click)='borraLibro(libro.id)'>Delete</button>
                     <button class='btn btn-warning' data-bs-toggle="modal" data-bs-target="#exampleModal" (click)='cargoValoresLibro(libro)'>Actualizar</button>
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="{{libro.imagen}}" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{libro.id}} - {{libro?.titulo}}</h5>
                       <p class="card-text">{{libro?.autor}} - {{libro?.categoria}}</p>
