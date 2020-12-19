@@ -1,0 +1,18 @@
+<div class="container-fluid p-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6 border border-dark p-5 bg-secondary shadow-lg">
+          <form #formLogin='ngForm' (ngSubmit)='onLogin(formLogin)'>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" name='email' ngModel required class="form-control">
+              
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" name='password' ngModel required class="form-control">
+            </div>
+            <button type="submit" class='btn btn-warning'>Submit</button>
+          </form>
+        </div>
+    </div>
+  </div>
