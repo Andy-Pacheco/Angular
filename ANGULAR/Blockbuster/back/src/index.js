@@ -20,8 +20,9 @@ const adminVista = require('./rutas/adminRutas');
 const peliculaVista = require('./rutas/peliculasRutas');
 
 app.use('/api/admin', adminVista);
-app.use('/apì/user', userVista);
+app.use('/api/user', userVista);
 app.use('/api/peliculas', peliculaVista);
+//app.use('api/imagenes', imagenesVista);
 
 // lanzaré el servidor.
 app.listen(app.get('puerto'), ()=> {

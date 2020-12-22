@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row" *ngIf='noAcceso else perfilBack'>
+        <form [formGroup]='accesoUser' (ngSubmit)='comprueboUser()'>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" formControlName='email'>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName='password'>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+    </div>
+    <ng-template #perfilBack> 
+        <div class="row" >
+            <p>Estamos en back</p>
+        </div>
+    </ng-template>
+</div>
