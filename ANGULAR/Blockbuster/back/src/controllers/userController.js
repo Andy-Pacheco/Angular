@@ -11,6 +11,16 @@ class ControladorUser{
         })
     }
 
+    async validateUser(req, res){
+        let email = req.body.email;
+        let password = req.body.password;
+        let sql = `SELECT * FROM user WHERE email = '${email}' AND password='${password}'`;
+        await conexion.query(sql, (req, result, fields)=>{
+            console.log(result)
+            res.json(result);
+        })
+    }
+
 
 
 }
