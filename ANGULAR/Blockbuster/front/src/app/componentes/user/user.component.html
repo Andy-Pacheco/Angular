@@ -1,5 +1,5 @@
-<div class="container-fluid" *ngIf='!accesoUsuario'>
-  <form [formGroup]='acceso' (ngSubmit)='comprueboAcceso()'>
+<div class="container-fluid">
+  <form [formGroup]='acceso' *ngIf='!accesoUsuario; else accesoValido' (ngSubmit)='comprueboAcceso()'>
       <div class="mb-3">
           <input type="email" class="form-control" formControlName='email' placeholder="inserte e-mail">
           <div *ngIf="validar('email')">
@@ -13,5 +13,35 @@
           </div>
       </div>
       <button [disabled]='acceso.invalid' type="submit" class="btn btn-primary">Acceso a perfil</button>
-  </form>  
+  </form> 
+  
+  <ng-template #accesoValido>
+    <form [formGroup]='modificoDatos' (ngSubmit)='modificoDatosUser()'>
+        <div class="mb-3">
+            <input type="email" class="form-control" formControlName='email' placeholder="">
+            <!--<div *ngIf="validar('email')">
+                {{mensajeError('email')}}
+            </div>-->
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" formControlName='name' placeholder="">
+            <!--<div *ngIf="validar('email')">
+                {{mensajeError('name')}}
+            </div>-->
+        </div>
+        <div class="mb-3">
+            <input type="file" class="form-control" formControlName='avatar'>
+            <!--<div *ngIf="validar('email')">
+                {{mensajeError('avatar')}}
+            </div>-->
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" formControlName='password' placeholder="inserte pass">
+            <!--<div *ngIf="validar('password')">
+                {{mensajeError('password')}}
+            </div>-->
+        </div>
+        <button type="submit" class="btn btn-primary">Acceso a perfil</button>
+    </form>
+</ng-template>
 </div>

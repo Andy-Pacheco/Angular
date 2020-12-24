@@ -6,11 +6,15 @@ import { HttpClient} from '@angular/common/http';
 })
 export class PersonasService {
 
-  url: string = 'http://localhost:3003';
+  url: string = 'http://localhost:3003/api';
 
   constructor(private http:HttpClient) { }
 
   comprueboUser(user){
-    return this.http.post(`${this.url}/api/user`, user);
+    return this.http.post(`${this.url}/user`, user);
+  }
+
+  nuevoUser(user){
+    return this.http.post(`${this.url}/user/newUser`, user)
   }
 }

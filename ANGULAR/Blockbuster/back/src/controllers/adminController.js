@@ -12,6 +12,20 @@ class ControladorAdmin{
         })
     }
 
+    async validateAdmin(req, res){
+        let email = req.body.email;
+        let password = req.body.password;
+        let sql = `SELECT * FROM user WHERE email = '${email}' AND type='admin'`;
+        await conexion.query(sql, (req, result, fields)=>{
+            if (result.length == 0){
+                return res.status(400).send('El email es incorrecto');
+            }else if (result[0].password != password){
+                return res.status(400).send('La contraseña es incorrecta')
+            }
+            res.json(result);
+        })
+    }
+
     async checkAdmin(req, res){
         let email = req.body.email;
         let password = req.body.password;

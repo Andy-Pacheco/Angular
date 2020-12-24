@@ -14,13 +14,20 @@ export class UserComponent implements OnInit {
     token:''
   }
 
-  accesoUsuario:boolean = false
+  accesoUsuario:boolean = false;
 
   acceso = this.forms.group({
     email:['', [Validators.required, Validators.email]],
     password:['', [Validators.required, Validators.minLength(6)]]
 
   });
+
+  modificoDatos = this.forms.group({
+    name: ['',[]],
+    email:['', []],
+    password:['', []],
+    avatar:['',[]]
+  })
 
   constructor(private forms:FormBuilder, private servicioPersonas:PersonasService) { }
 
@@ -32,9 +39,9 @@ export class UserComponent implements OnInit {
       res =>{
         console.log(res)
         alert('usuario válido');
+        this.accesoUsuario = true;
       }, error => console.log(error)
     )
-    console.log(this.acceso.value)
   }
 
   validar(dato:string):boolean {
@@ -53,4 +60,5 @@ export class UserComponent implements OnInit {
     return error!;
   }
 
+  modificoDatosUser(){}
 }

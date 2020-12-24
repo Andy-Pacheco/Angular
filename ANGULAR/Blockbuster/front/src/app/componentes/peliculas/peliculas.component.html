@@ -1,1 +1,15 @@
-<p>peliculas works!</p>
+<div class="container">
+<div class="row">
+  <h3>Movies in stock</h3>
+  <div class="col-4" *ngFor='let pelicula of peliculas'>
+    <div class="card">
+      <!--<img src="..." class="card-img-top" alt="...">-->
+      <div class="card-body">
+        <h5 class="card-title">{{pelicula.title}}</h5>
+        <p class="card-text">{{pelicula.year}}</p>
+        <p class='card-text'>{{pelicula.director}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

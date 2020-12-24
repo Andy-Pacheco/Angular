@@ -1,20 +1,70 @@
-<!--<div class="container">
-    <div class="row" *ngIf='noAcceso else perfilBack'>
-        <form [formGroup]='accesoAdmin' (ngSubmit)='comprueboAdmin'>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
-    </div>
-    <ng-template>
-        <div class="row" #perfilBack>
-            <p>Estamos en back</p>
+<div class="container-fluid">
+  <div class="row" *ngIf="!accesoOk; else accesoValido">
+    <form [formGroup]='accesoAdmin' (ngSubmit)='comprueboAdmin()'>
+      <div class="mb-3">
+          <input type="email" class="form-control" formControlName='email' placeholder="inserte e-mail">
+          <div *ngIf="validar('email')">
+              {{mensajeError('email')}}
+          </div>
+      </div>
+      <div class="mb-3">
+          <input type="password" class="form-control" formControlName='password' placeholder="inserte pass">
+          <div *ngIf="validar('password')">
+              {{mensajeError('password')}}
+          </div>
+      </div>
+      <button [disabled]='accesoAdmin.invalid' type="submit" class="btn btn-primary">Acceso a perfil</button>
+  </form> 
+  </div>
+
+  <ng-template #accesoValido>
+    <div class="row">
+      <h3>Load movie</h3>
+      <form [formGroup]='pelicula' (ngSubmit)='guardoPelicula($event)'>
+          <div class="mb-3">
+              <input type="text" class="form-control" formControlName='title' placeholder="Movie title">
+              <!--<div *ngIf="validar('title')">
+                  {{mensajeError('title')}}
+              </div>-->
+          </div>
+          <div class="mb-3">
+              <input type="text" class="form-control" formControlName='director' placeholder="Movie director">
+              <!--<div *ngIf="validar('director')">
+                  {{mensajeError('password')}}
+              </div>-->
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" formControlName='year' placeholder="Movie year">
+            <!--<div *ngIf="validar('year')">
+                {{mensajeError('password')}}
+            </div>-->
         </div>
-    </ng-template>
-</div>-->
+        <div class="mb-3">
+          <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFile($event)'>
+          <!--<div *ngIf="validar('cover')">
+              {{mensajeError('password')}}
+          </div>-->
+      </div>
+          <button type="submit" class="btn btn-primary">Add movie</button>
+      </form> 
+    </div>
+
+    <div class="row">
+      <h3>Movies in stock</h3>
+      <div class="col-4" *ngFor='let pelicula of peliculas'>
+        <div class="card">
+          <!--<img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title">{{pelicula.title}}</h5>
+            <p class="card-text">{{pelicula.year}}</p>
+            <p class='card-text'>{{pelicula.director}}</p>
+            <div class="botones d-flex flex-column">
+              <a href="#" class="btn btn-warning mb-3">Editar id: {{pelicula.movie_id}}</a>
+              <a href="#" class="btn btn-danger">Borrar id: {{pelicula.movie_id}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
