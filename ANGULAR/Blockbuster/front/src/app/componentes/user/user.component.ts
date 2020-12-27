@@ -24,6 +24,7 @@ export class UserComponent implements OnInit {
   }
 
   accesoUsuario:boolean = false;
+  id:any;
 
   acceso = this.forms.group({
     email:['', [Validators.required, Validators.email]],
@@ -41,14 +42,33 @@ export class UserComponent implements OnInit {
   constructor(private forms:FormBuilder, private servicioPersonas:PersonasService) { }
 
   ngOnInit(): void {
+    this.accesoUsuario = false;
+    this.compruebaLogin();
+  }
+
+  compruebaLogin(){
+    const tokenAdmin = localStorage.getItem('tokenUser');
+    this.servicioPersonas.verificaToken({token: tokenAdmin}).subscribe(
+      res => {
+        this.accesoUsuario = res['tokenOk'];
+      }, error => console.log(error)
+    );
+  }
+
+  logout(){
+    this.servicioPersonas.elimnaTokenUser();
+    this.compruebaLogin();
   }
 
   comprueboAcceso(){
     this.servicioPersonas.comprueboUser(this.acceso.value).subscribe(
       res =>{
-        console.log(res)
+        if (res['token'] != null){
+          this.id = res['id'];
+          this.servicioPersonas.guardoTokenUser(res['token'])
+          this.compruebaLogin();
+        }
         alert('usuario válido');
-        this.accesoUsuario = true;
       }, error => console.log(error)
     )
   }

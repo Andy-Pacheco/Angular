@@ -12,6 +12,12 @@ import { PersonasService } from 'src/app/servicios/personas.service';
 export class AdminLoginComponent implements OnInit {
 
   accesoOk:boolean = false;
+  urlImagen:string = '';
+  peliculas:any = [];
+  usuarios: any = [];
+  imagenPelicula:File;
+  imagenUsuario:File;
+  id:any;
 
   accesoAdmin = this.forms.group({
     email:['', [Validators.required, Validators.email]],
@@ -26,6 +32,7 @@ export class AdminLoginComponent implements OnInit {
   })
 
   modificoInfoPelicula = this.forms.group({
+    id:[0, []],
     title: ['', []],
     director: ['', []],
     year: ['', []],
@@ -39,22 +46,38 @@ export class AdminLoginComponent implements OnInit {
     avatar:['', []]
   })
 
-  peliculas:any = [];
-
-  imagenPelicula:File;
-
   constructor(private forms:FormBuilder,private servicioPelicula: PeliculasService ,private servicioPersonas:PersonasService) { }
 
   ngOnInit(): void {
+    this.accesoOk = false;
+    this.compruebaLogin();
+  }
+
+  compruebaLogin(){
+    const tokenAdmin = localStorage.getItem('tokenAdmin');
+    this.servicioPersonas.verificaToken({token: tokenAdmin}).subscribe(
+      res => {
+        this.accesoOk = res['tokenOk'];
+        this.mostrarPeliculas();
+        this.mostrarUsuarios();
+      }, error => console.log(error)
+    );
+  }
+
+  logout(){
+    this.servicioPersonas.elimnaTokenAdmin();
+    this.compruebaLogin();
   }
 
   comprueboAdmin(){
-    this.servicioPersonas.comprueboUser(this.accesoAdmin.value).subscribe(
+    this.servicioPersonas.comprueboAdmin(this.accesoAdmin.value).subscribe(
       res =>{
-        console.log(res)
+        if (res['token'] != null){
+          this.id = res['id'];
+          this.servicioPersonas.guardoToken(res['token'])
+          this.compruebaLogin();
+        }
         alert('usuario válido');
-        this.accesoOk = true;
-        this.mostrarPeliculas();
       }, error => console.log(error)
     )
   }
@@ -94,20 +117,34 @@ export class AdminLoginComponent implements OnInit {
   guardoPelicula(){
     let info = new FormData();
     info.append('imagenPelicula', this.imagenPelicula[0], this.imagenPelicula.name);
-
-    this.servicioPelicula.peliculaNueva(this.pelicula.value, info).subscribe(
+    this.servicioPelicula.peliculaNueva(this.pelicula.value).subscribe(
       res =>{
         this.mostrarPeliculas();
+        this.pelicula.reset();
       }, error => console.log(error)
     );
   }
 
-  actualizoPelicula(id){
-    this.servicioPelicula.actualizarPelicula(id, this.modificoInfoPelicula.value).subscribe(
+  actualizoPelicula(){
+    if (this.modificoInfoPelicula.value.cover == ''){
+      this.modificoInfoPelicula.value.cover = this.urlImagen;
+    }
+    this.servicioPelicula.actualizarPelicula(this.modificoInfoPelicula.value.id, this.modificoInfoPelicula.value).subscribe(
       res =>{
         this.mostrarPeliculas();
+        
       }, error => console.log(error)
       )
+  }
+
+  cargoValoresPelicula(pelicula){
+    this.modificoInfoPelicula = this.forms.group({
+      id: [pelicula.movie_id, []],
+      title: [pelicula.title, []],
+      director: [pelicula.director, []],
+      year: [pelicula.year, []],
+      cover: [pelicula.cover, []]
+    });
   }
 
   borroPelicula(id:number){
@@ -121,21 +158,43 @@ export class AdminLoginComponent implements OnInit {
   mostrarPeliculas(){
     this.servicioPelicula.obtenerPeliculas().subscribe(
       res =>{
-        console.log(res);
         this.peliculas = res;
       }, error => console.log(error)
     )
   }
 
   guardoUsuario(){
+    let info = new FormData();
+    info.append('imagenUsuario', this.imagenUsuario[0], this.imagenUsuario.name);
     this.servicioPersonas.nuevoUser(this.user.value).subscribe(
       res =>{
         console.log('doy de alta el usuario')
+        this.mostrarUsuarios();
+        this.user.reset();
       }, error => console.log(error)
     );
   }
 
-  modificoEstadoInputFile(e){
+  borroUsuario(id:number){
+    this.servicioPersonas.borroUsuario(id).subscribe(
+      res =>{
+        this.mostrarUsuarios();
+      }, error => console.log(error)
+    );
+  }
+
+  mostrarUsuarios(){
+    this.servicioPersonas.mostrarUsuarios().subscribe(
+      res => {
+        this.usuarios = res;
+      }, error => console.log(error)
+    )
+  }
+
+  modificoEstadoInputFileUser(e){
+    this.imagenUsuario = e.target.files; 
+  }
+  modificoEstadoInputFilePelicula(e){
     this.imagenPelicula = e.target.files; 
   }
 }

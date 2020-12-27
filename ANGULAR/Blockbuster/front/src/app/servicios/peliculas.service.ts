@@ -13,8 +13,8 @@ export class PeliculasService {
     return this.http.get(`${this.url}/peliculas`);
   };
 
-  peliculaNueva(pelicula, info){
-    return this.http.post(`${this.url}/peliculas`, pelicula)
+  peliculaNueva(peliculaId){
+    return this.http.post(`${this.url}/peliculas`, peliculaId)
   }
 
   borradoPelicula(id){

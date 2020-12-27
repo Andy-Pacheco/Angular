@@ -19,9 +19,14 @@
 
   <ng-template #accesoValido>
     <div class="row">
+      <div class="button">
+        <button class='btn btn-warning' (click)='logout()'>Logout</button>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-6">
         <h3>Load new movie</h3>
-        <form [formGroup]='pelicula' (ngSubmit)='guardoPelicula()'>
+        <form method='POST' enctype="multipart/form-data" [formGroup]='pelicula' (ngSubmit)='guardoPelicula()'>
             <div class="mb-3">
                 <input type="text" class="form-control" formControlName='title' placeholder="Movie title">
                 <!--<div *ngIf="validar('title')">
@@ -41,7 +46,7 @@
               </div>-->
           </div>
           <div class="mb-3">
-            <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFile($event)'>
+            <input type="file" class="form-control" accept='.jpg, .png, .jpeg' formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFilePelicula($event)'>
             <!--<div *ngIf="validar('cover')">
                 {{mensajeError('password')}}
             </div>-->
@@ -51,7 +56,7 @@
       </div>
       <div class="col-6">
         <h3>Create new User</h3>
-        <form [formGroup]='user' (ngSubmit)='guardoUsuario()'>
+        <form method='POST' enctype="multipart/form-data" [formGroup]='user' (ngSubmit)='guardoUsuario()'>
             <div class="mb-3">
                 <input type="text" class="form-control" formControlName='name' placeholder="User name">
                 <div *ngIf="validarUser('name')">
@@ -71,7 +76,7 @@
               </div>
           </div>
           <div class="mb-3">
-            <input type="file" class="form-control" formControlName='avatar' (change)='modificoEstadoInputFile($event)'>
+            <input type="file" class="form-control" accept='.jpg, .png, .jpeg' formControlName='avatar' (change)='modificoEstadoInputFileUser($event)'>
             <!--<div *ngIf="validar('cover')">
                 {{mensajeError('password')}}
             </div>-->
@@ -91,12 +96,59 @@
             <p class="card-text">{{pelicula.year}}</p>
             <p class='card-text'>{{pelicula.director}}</p>
             <div class="botones d-flex flex-column">
-              <a href="#" class="btn btn-warning mb-3">Editar id: {{pelicula.movie_id}}</a>
-              <a href="#" class="btn btn-danger">Borrar id: {{pelicula.movie_id}}</a>
+              <button class="btn btn-warning mb-3" (click)='cargoValoresPelicula(pelicula)' data-bs-toggle="modal" data-bs-target="#exampleModal">Editar id: {{pelicula.movie_id}}</button>
+              <button class="btn btn-danger" (click)='borroPelicula(pelicula.movie_id)'>Borrar id: {{pelicula.movie_id}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <h3>Users in database</h3>
+      <div class="col-4" *ngFor='let user of usuarios'>
+        <div class="card">
+          <!--<img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title">{{user.name}}</h5>
+            <p class="card-text">{{user.email}}</p>
+            <div class="botones d-flex flex-column">
+              <button class="btn btn-danger" (click)='borroUsuario(user.user_id)'>Borrar id: {{user.user_id}}</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </ng-template>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Actaulizar película</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method='POST' enctype='multipart/form-data' [formGroup]='modificoInfoPelicula' (ngSubmit)='actualizoPelicula()'>
+          <div class="mb-3">
+              <input type="text" class="form-control" formControlName='title' placeholder="Movie title">
+          </div>
+          <div class="mb-3">
+              <input type="text" class="form-control" formControlName='director' placeholder="Movie director">
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" formControlName='year' placeholder="Movie year">
+        </div>
+        <div class="mb-3">
+          <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" accept=".jpg, .png, .jpeg" (change)='modificoEstadoInputFilePelicula($event)'>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+      </div>
+      </form>
+      </div>
+      
+    </div>
+  </div>
 </div>

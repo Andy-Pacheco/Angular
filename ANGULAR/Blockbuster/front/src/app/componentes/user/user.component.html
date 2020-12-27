@@ -18,6 +18,11 @@
     <app-usuario-hijo [padre]="user.email" (hijoPadre)='infoAdmitida($event)'></app-usuario-hijo>
 
   <ng-template #accesoValido>
+      <div class="row">
+          <div class="button">
+              <button class='btn btn-warning' (click)='logout()'>Logout</button>
+          </div>
+      </div>
       <h3>Editar perfil user</h3>
     <form [formGroup]='modificoDatos' (ngSubmit)='modificoDatosUser()'>
         <div class="mb-3">
