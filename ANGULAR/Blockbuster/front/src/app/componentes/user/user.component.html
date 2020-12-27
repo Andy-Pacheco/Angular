@@ -13,9 +13,12 @@
           </div>
       </div>
       <button [disabled]='acceso.invalid' type="submit" class="btn btn-primary">Acceso a perfil</button>
-  </form> 
   
+    </form> 
+    <app-usuario-hijo [padre]="user.email" (hijoPadre)='infoAdmitida($event)'></app-usuario-hijo>
+
   <ng-template #accesoValido>
+      <h3>Editar perfil user</h3>
     <form [formGroup]='modificoDatos' (ngSubmit)='modificoDatosUser()'>
         <div class="mb-3">
             <input type="email" class="form-control" formControlName='email' placeholder="">

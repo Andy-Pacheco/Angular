@@ -9,6 +9,15 @@ import {PersonasService} from '../../servicios/personas.service';
 })
 export class UserComponent implements OnInit {
 
+  user = {
+    email: 'sdkfsdfdsf',
+    password: 'dfsdfsd'
+  }
+
+  infoAdmitida(e){
+    console.log(e)
+  }
+
   infoUser:any = {
     id: null,
     token:''

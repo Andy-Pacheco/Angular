@@ -33,9 +33,10 @@ export class AdminLoginComponent implements OnInit {
   })
 
   user = this.forms.group({
-    nombre:['', [Validators.required]],
+    name:['', [Validators.required]],
     email:['', [Validators.required, Validators.email]],
-    password:['', [Validators.required, Validators.minLength(6)]]
+    password:['', [Validators.required, Validators.minLength(6)]],
+    avatar:['', []]
   })
 
   peliculas:any = [];
@@ -62,19 +63,35 @@ export class AdminLoginComponent implements OnInit {
     return ((this.accesoAdmin.get(dato).touched || this.accesoAdmin.get(dato).dirty) && this.accesoAdmin.get(dato).invalid);
   }
 
+  validarUser(dato:string):boolean {
+    return ((this.user.get(dato).touched || this.user.get(dato).dirty) && this.user.get(dato).invalid);
+  }
+
   mensajeError(info:string):string{
     let error:string;
-    if(this.accesoAdmin.get(info).errors.required){
+    if(this.user.get(info).errors.required){
       error = 'por favor indique los datos solicitados';
-    }else if(this.accesoAdmin.get(info).errors.email){
+    }else if(this.user.get(info).errors.email){
       error = 'Por favor inserte email correctamente';
-    }else if(this.accesoAdmin.get(info).hasError('minlength')){
+    }else if(this.user.get(info).hasError('minlength')){
       error = 'La contraseña debe tener al menos 6 caracteres';
     }
     return error;
   }
 
-  guardoPelicula(e){
+  mensajeErrorUser(info:string):string{
+    let error:string;
+    if(this.user.get(info).errors.required){
+      error = 'por favor indique los datos solicitados';
+    }else if(this.user.get(info).errors.email){
+      error = 'Por favor inserte email correctamente';
+    }else if(this.user.get(info).hasError('minlength')){
+      error = 'La contraseña debe tener al menos 6 caracteres';
+    }
+    return error;
+  }
+
+  guardoPelicula(){
     let info = new FormData();
     info.append('imagenPelicula', this.imagenPelicula[0], this.imagenPelicula.name);
 
@@ -110,8 +127,12 @@ export class AdminLoginComponent implements OnInit {
     )
   }
 
-  nuevoUser(){
-    this.servicioPersonas.nuevoUser(this.user.value).subscribe();
+  guardoUsuario(){
+    this.servicioPersonas.nuevoUser(this.user.value).subscribe(
+      res =>{
+        console.log('doy de alta el usuario')
+      }, error => console.log(error)
+    );
   }
 
   modificoEstadoInputFile(e){

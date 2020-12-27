@@ -19,34 +19,66 @@
 
   <ng-template #accesoValido>
     <div class="row">
-      <h3>Load movie</h3>
-      <form [formGroup]='pelicula' (ngSubmit)='guardoPelicula($event)'>
-          <div class="mb-3">
-              <input type="text" class="form-control" formControlName='title' placeholder="Movie title">
-              <!--<div *ngIf="validar('title')">
-                  {{mensajeError('title')}}
-              </div>-->
-          </div>
-          <div class="mb-3">
-              <input type="text" class="form-control" formControlName='director' placeholder="Movie director">
-              <!--<div *ngIf="validar('director')">
+      <div class="col-6">
+        <h3>Load new movie</h3>
+        <form [formGroup]='pelicula' (ngSubmit)='guardoPelicula()'>
+            <div class="mb-3">
+                <input type="text" class="form-control" formControlName='title' placeholder="Movie title">
+                <!--<div *ngIf="validar('title')">
+                    {{mensajeError('title')}}
+                </div>-->
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" formControlName='director' placeholder="Movie director">
+                <!--<div *ngIf="validar('director')">
+                    {{mensajeError('password')}}
+                </div>-->
+            </div>
+            <div class="mb-3">
+              <input type="text" class="form-control" formControlName='year' placeholder="Movie year">
+              <!--<div *ngIf="validar('year')">
                   {{mensajeError('password')}}
               </div>-->
           </div>
           <div class="mb-3">
-            <input type="text" class="form-control" formControlName='year' placeholder="Movie year">
-            <!--<div *ngIf="validar('year')">
+            <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFile($event)'>
+            <!--<div *ngIf="validar('cover')">
                 {{mensajeError('password')}}
             </div>-->
         </div>
-        <div class="mb-3">
-          <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFile($event)'>
-          <!--<div *ngIf="validar('cover')">
-              {{mensajeError('password')}}
-          </div>-->
+            <button type="submit" class="btn btn-primary">Add movie</button>
+        </form>
       </div>
-          <button type="submit" class="btn btn-primary">Add movie</button>
-      </form> 
+      <div class="col-6">
+        <h3>Create new User</h3>
+        <form [formGroup]='user' (ngSubmit)='guardoUsuario()'>
+            <div class="mb-3">
+                <input type="text" class="form-control" formControlName='name' placeholder="User name">
+                <div *ngIf="validarUser('name')">
+                    {{mensajeErrorUser('name')}}
+                </div>
+            </div>
+            <div class="mb-3">
+                <input type="email" class="form-control" formControlName='email' placeholder="User email">
+                <div *ngIf="validarUser('email')">
+                    {{mensajeErrorUser('email')}}
+                </div>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" formControlName='password' placeholder="User password">
+              <div *ngIf="validarUser('password')">
+                  {{mensajeErrorUser('password')}}
+              </div>
+          </div>
+          <div class="mb-3">
+            <input type="file" class="form-control" formControlName='avatar' (change)='modificoEstadoInputFile($event)'>
+            <!--<div *ngIf="validar('cover')">
+                {{mensajeError('password')}}
+            </div>-->
+        </div>
+            <button type="submit" class="btn btn-primary">Add user</button>
+        </form>
+      </div>
     </div>
 
     <div class="row">

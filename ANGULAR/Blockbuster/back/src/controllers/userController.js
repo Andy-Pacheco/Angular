@@ -1,10 +1,10 @@
 const express = require('express');
 const conexion = require ('../config/conexion');
+const jwt = require ('jsonwebtoken');
 
 class ControladorUser{
     async getUsers(req, res){
         let sql = `SELECT * FROM user WHERE type = 'user'`;
-        //;
         await conexion.query(sql, (req, result, fields)=>{
             console.log(result)
             res.json(result);
@@ -22,6 +22,16 @@ class ControladorUser{
                 return res.status(400).send('La contraseña es incorrecta')
             }
             res.json(result);
+        })
+    }
+
+    async createUser(req, res){
+        let name = req.body.name;
+        let email = req.body.email;
+        let password = req.body.password;
+        let avatar = req.body.avatar;
+        await conexion.query(`INSERT INTO user (name, email, password, type) values ('${name}', '${email}', '${password}', 'user')`, (error, resultado, fields)=>{
+            res.json(resultado);
         })
     }
 

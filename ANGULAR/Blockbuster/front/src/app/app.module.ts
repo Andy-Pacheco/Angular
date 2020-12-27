@@ -12,6 +12,7 @@ import { AdminLoginComponent } from './componentes/admin-login/admin-login.compo
 import { UserComponent } from './componentes/user/user.component';
 import { PersonasService } from './servicios/personas.service';
 import { PeliculasService } from './servicios/peliculas.service';
+import { UsuarioHijoComponent } from './componentes/user/usuario-hijo/usuario-hijo.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PeliculasService } from './servicios/peliculas.service';
     HomeComponent,
     PeliculasComponent,
     AdminLoginComponent,
-    UserComponent
+    UserComponent,
+    UsuarioHijoComponent
   ],
   imports: [
     BrowserModule,
