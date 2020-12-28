@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,6 @@ import { HttpClient} from '@angular/common/http';
 export class PersonasService {
 
   url: string = 'http://localhost:3003/api';
-  tokenUser:string;
   idUser:number;
 
   constructor(private http:HttpClient) { }
@@ -50,5 +50,9 @@ export class PersonasService {
 
   elimnaTokenUser(){
     localStorage.removeItem('tokenUser');
+  }
+
+  subirImagen(file:FormData):Observable<any>{
+    return this.http.post(`${this.url}/imagenes`, file);
   }
 }

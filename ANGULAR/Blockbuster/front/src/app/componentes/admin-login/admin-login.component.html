@@ -46,7 +46,7 @@
               </div>-->
           </div>
           <div class="mb-3">
-            <input type="file" class="form-control" accept='.jpg, .png, .jpeg' formControlName='cover' placeholder="Movie cover" (change)='modificoEstadoInputFilePelicula($event)'>
+            <input type="file" class="form-control" accept='.jpg, .png, .jpeg' formControlName='cover' (change)='modificoEstadoInputFilePelicula($event)'>
             <!--<div *ngIf="validar('cover')">
                 {{mensajeError('password')}}
             </div>-->
@@ -90,7 +90,7 @@
       <h3>Movies in stock</h3>
       <div class="col-4" *ngFor='let pelicula of peliculas'>
         <div class="card">
-          <!--<img src="..." class="card-img-top" alt="...">-->
+          <img src="{{pelicula.cover}}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{pelicula.title}}</h5>
             <p class="card-text">{{pelicula.year}}</p>
@@ -107,7 +107,7 @@
       <h3>Users in database</h3>
       <div class="col-4" *ngFor='let user of usuarios'>
         <div class="card">
-          <!--<img src="..." class="card-img-top" alt="...">-->
+          <img src="{{user.avatar}}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{user.name}}</h5>
             <p class="card-text">{{user.email}}</p>
@@ -141,11 +141,10 @@
             <input type="text" class="form-control" formControlName='year' placeholder="Movie year">
         </div>
         <div class="mb-3">
-          <input type="file" class="form-control" formControlName='cover' placeholder="Movie cover" accept=".jpg, .png, .jpeg" (change)='modificoEstadoInputFilePelicula($event)'>
+          <input type="file" #inputFichero class="form-control d-none" formControlName='cover' placeholder="Movie cover" accept=".jpg, .png, .jpeg" (change)='modificoEstadoInputCambioPelicula($event)'>
+          <img src="{{urlImagen}}" alt="" class='img-fluid' (click)='inputFichero.click()'>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-      </div>
+      <button type="submit" class="btn btn-primary">Guardar</button>
       </form>
       </div>
       

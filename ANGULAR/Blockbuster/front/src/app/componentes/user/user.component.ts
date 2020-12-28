@@ -18,10 +18,12 @@ export class UserComponent implements OnInit {
     console.log(e)
   }
 
-  infoUser:any = {
-    id: null,
-    token:''
-  }
+  modificoDatos = this.forms.group({
+    name: ['', []],
+    email: ['', []],
+    password: ['', []],
+    avatar: ['', []]
+  })
 
   accesoUsuario:boolean = false;
   id:any;
@@ -32,13 +34,6 @@ export class UserComponent implements OnInit {
 
   });
 
-  modificoDatos = this.forms.group({
-    name: ['',[]],
-    email:['', []],
-    password:['', []],
-    avatar:['',[]]
-  })
-
   constructor(private forms:FormBuilder, private servicioPersonas:PersonasService) { }
 
   ngOnInit(): void {
@@ -47,8 +42,8 @@ export class UserComponent implements OnInit {
   }
 
   compruebaLogin(){
-    const tokenAdmin = localStorage.getItem('tokenUser');
-    this.servicioPersonas.verificaToken({token: tokenAdmin}).subscribe(
+    const tokenUser = localStorage.getItem('tokenUser');
+    this.servicioPersonas.verificaToken({token: tokenUser}).subscribe(
       res => {
         this.accesoUsuario = res['tokenOk'];
       }, error => console.log(error)

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,11 @@ export class PeliculasService {
     return this.http.delete(`${this.url}/peliculas/${id}`)
   }
 
-  actualizarPelicula(id:number, pelicula){
-    return this.http.put(`${this.url}/peliculas/${id}`, pelicula)
+  actualizarPelicula(pelicula){
+    return this.http.put(`${this.url}/peliculas/${pelicula.id}`, pelicula)
+  }
+
+  subirImagen(file:FormData):Observable<any>{
+    return this.http.post(`${this.url}/imagenes`, file);
   }
 }

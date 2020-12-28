@@ -12,11 +12,11 @@ import { PersonasService } from 'src/app/servicios/personas.service';
 export class AdminLoginComponent implements OnInit {
 
   accesoOk:boolean = false;
-  urlImagen:string = '';
+  urlImagen:string;
   peliculas:any = [];
   usuarios: any = [];
   imagenPelicula:File;
-  imagenUsuario:File;
+  imagenUser:File;
   id:any;
 
   accesoAdmin = this.forms.group({
@@ -32,7 +32,7 @@ export class AdminLoginComponent implements OnInit {
   })
 
   modificoInfoPelicula = this.forms.group({
-    id:[0, []],
+    id:['', []],
     title: ['', []],
     director: ['', []],
     year: ['', []],
@@ -78,7 +78,7 @@ export class AdminLoginComponent implements OnInit {
           this.compruebaLogin();
         }
         alert('usuario válido');
-      }, error => console.log(error)
+      }, error => console.log(error.error)
     )
   }
 
@@ -116,7 +116,17 @@ export class AdminLoginComponent implements OnInit {
 
   guardoPelicula(){
     let info = new FormData();
-    info.append('imagenPelicula', this.imagenPelicula[0], this.imagenPelicula.name);
+    info.append('imagen', this.imagenPelicula[0], this.imagenPelicula[0].name);
+    this.servicioPelicula.subirImagen(info).subscribe(
+      res =>{
+        console.log(res['nombreImagen'])
+        this.guardoInfoTotalPelicula(res['nombreImagen']);
+      }, error => console.log(error.error)
+    );
+  }
+
+  guardoInfoTotalPelicula(nombreImagen){
+    this.pelicula.value.cover = `http://localhost:3003/imagenes/${nombreImagen}`;
     this.servicioPelicula.peliculaNueva(this.pelicula.value).subscribe(
       res =>{
         this.mostrarPeliculas();
@@ -127,23 +137,40 @@ export class AdminLoginComponent implements OnInit {
 
   actualizoPelicula(){
     if (this.modificoInfoPelicula.value.cover == ''){
-      this.modificoInfoPelicula.value.cover = this.urlImagen;
+      this.actualizoInfoPelicula(this.urlImagen);
+    }else{
+      let info = new FormData();
+      info.append('imagen', this.imagenPelicula[0], this.imagenPelicula[0].name);
+      this.servicioPelicula.subirImagen(info).subscribe(
+        res =>{
+          let rutaImagen = res['nombreImagen'];
+          this.actualizoInfoPelicula(`http://localhost:3003/imagenes/${rutaImagen}`);
+        }, error => console.log(error.error)
+      );
     }
-    this.servicioPelicula.actualizarPelicula(this.modificoInfoPelicula.value.id, this.modificoInfoPelicula.value).subscribe(
+    console.log(this.modificoInfoPelicula.value)
+
+    
+  }
+
+  actualizoInfoPelicula(nombre){
+    this.modificoInfoPelicula.value.cover = nombre;
+    this.servicioPelicula.actualizarPelicula(this.modificoInfoPelicula.value).subscribe(
       res =>{
         this.mostrarPeliculas();
         
       }, error => console.log(error)
-      )
+      );
   }
 
   cargoValoresPelicula(pelicula){
+    this.urlImagen = pelicula.cover;
     this.modificoInfoPelicula = this.forms.group({
       id: [pelicula.movie_id, []],
       title: [pelicula.title, []],
       director: [pelicula.director, []],
       year: [pelicula.year, []],
-      cover: [pelicula.cover, []]
+      cover: ['', []]
     });
   }
 
@@ -165,8 +192,18 @@ export class AdminLoginComponent implements OnInit {
 
   guardoUsuario(){
     let info = new FormData();
-    info.append('imagenUsuario', this.imagenUsuario[0], this.imagenUsuario.name);
-    this.servicioPersonas.nuevoUser(this.user.value).subscribe(
+    info.append('imagen', this.imagenUser[0], this.imagenUser[0].name);
+    this.servicioPersonas.subirImagen(info).subscribe(
+      res =>{
+        console.log(res['nombreImagen'])
+        this.guardoInfoTotalUser(res['nombreImagen']);
+      }, error => console.log(error.error)
+    );
+  } 
+
+  guardoInfoTotalUser(nombreImagen){
+      this.user.value.avatar = `http://localhost:3003/imagenes/${nombreImagen}`;
+      this.servicioPersonas.nuevoUser(this.user.value).subscribe(
       res =>{
         console.log('doy de alta el usuario')
         this.mostrarUsuarios();
@@ -192,9 +229,13 @@ export class AdminLoginComponent implements OnInit {
   }
 
   modificoEstadoInputFileUser(e){
-    this.imagenUsuario = e.target.files; 
+    this.imagenUser = e.target.files; 
   }
   modificoEstadoInputFilePelicula(e){
+    this.imagenPelicula = e.target.files; 
+  }
+
+  modificoEstadoInputCambioPelicula(e){
     this.imagenPelicula = e.target.files; 
   }
 }

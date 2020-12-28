@@ -8,7 +8,6 @@ class ControladorUser{
     async getUsers(req, res){
         let sql = `SELECT * FROM user WHERE type = 'user'`;
         await conexion.query(sql, (req, result, fields)=>{
-            console.log(result)
             res.json(result);
         })
     }
@@ -20,7 +19,7 @@ class ControladorUser{
         await conexion.query(sql, (req, result, fields)=>{
             if (result.length == 0){
                 return res.status(400).send('El email es incorrecto');
-            }else if (result[0].password != password){
+            }else if (!bcrypt.compareSync(password, result[0].password)){
                 return res.status(400).send('La contraseña es incorrecta')
             }
             const token = jwt.sign({id: result[0].id}, clave);
@@ -34,7 +33,8 @@ class ControladorUser{
         let password = req.body.password;
         const hash = bcrypt.hashSync(password, 10)
         let avatar = req.body.avatar;
-        await conexion.query(`INSERT INTO user (name, email, password, type) values ('${name}', '${email}', '${password}', 'user')`, (error, resultado, fields)=>{
+        await conexion.query(`INSERT INTO user (name, email, password, avatar, type) values ('${name}', '${email}', '${hash}', '${avatar}', 'user')`, (error, resultado, fields)=>{
+            if (error) throw error;
             res.json(resultado);
         })
     }
